@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f4f0">
+  <title>Кадр — видео по вашей ссылке</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="shell">
+    <nav class="nav"><a class="brand" href="#"><span class="brand-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 10 6-10 6V6Z" fill="currentColor"/><path d="M4.5 5.5v13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>кадр<span class="brand-dot">.</span></a><span class="local-label"><span></span> локальное приложение</span></nav>
+
+    <section class="hero">
+      <div class="eyebrow"><span class="sparkle">✳</span> видео — в вашем ритме</div>
+      <h1>Ссылка на видео.<br><span>Дальше — легко.</span></h1>
+      <p class="subtitle">Скачайте или подготовьте видео так, как нужно именно вам.</p>
+
+      <div class="workspace">
+        <div class="url-row"><span class="link-icon"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.07 0l3-3A5 5 0 0 0 13 2.93l-1.72 1.72M14 11a5 5 0 0 0-7.07 0l-3 3A5 5 0 0 0 11 21.07l1.72-1.72" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><input id="url" type="url" placeholder="Вставьте ссылку на видео…" autocomplete="url"><button class="paste-btn" id="pasteBtn" title="Вставить из буфера">Вставить</button></div>
+
+        <div class="mode-tabs"><button class="mode-tab active" data-mode="download"><span class="tab-icon">↓</span> Скачать</button><button class="mode-tab" data-mode="edit"><span class="tab-icon">✳</span> Редактировать</button><span class="tab-line"></span></div>
+
+        <section class="panel download-panel">
+          <div class="choice-group"><div class="group-heading"><span>Что скачиваем?</span><span class="step">01</span></div><div class="segmented"><button class="choice active" data-kind="video"><span class="choice-symbol">▣</span> Видео</button><button class="choice" data-kind="audio"><span class="choice-symbol">♫</span> Аудио</button></div></div>
+          <div class="options-row"><label class="field quality-field"><span class="field-label">Качество</span><span class="select-wrap"><select id="quality"><option value="best">Лучшее доступное</option><option value="1080">1080p · Full HD</option><option value="720">720p · HD</option><option value="480">480p</option><option value="360">360p</option></select><span class="chevron">⌄</span></span></label><label class="field format-field"><span class="field-label">Формат</span><span class="select-wrap"><select id="format"></select><span class="chevron">⌄</span></span></label></div>
+          <div class="download-note"><span class="note-icon">✦</span><span id="formatHint">Хорошее качество, удобный формат и готовый файл.</span></div>
+        </section>
+
+        <section class="panel edit-panel" hidden>
+          <div class="edit-intro"><div><div class="group-heading">Настройте видео <span class="step">02</span></div><p>Укажите, что изменить в скачанном ролике.</p></div><span class="edit-glyph">✳</span></div>
+          <div class="edit-empty" id="editEmpty"><span class="empty-icon">↓</span>Сначала скачайте видео — после этого его можно редактировать.</div>
+          <div class="edit-controls" id="editControls" hidden>
+            <div class="trim-head"><label class="field-label">Обрезка, секунды</label><span class="trim-hint">Оставьте конец пустым, чтобы взять до конца видео</span></div>
+            <div class="options-row trim-row"><label class="field"><span class="field-label">От</span><span class="input-wrap"><input id="trimStart" type="number" min="0" step="0.1" value="0"></span></label><label class="field"><span class="field-label">До</span><span class="input-wrap"><input id="trimEnd" type="number" min="0" step="0.1" placeholder="конец видео"></span></label><label class="field speed-field"><span class="field-label">Скорость</span><span class="select-wrap"><select id="speed"><option value="0.5">0,5×</option><option value="0.75">0,75×</option><option value="1" selected>1×</option><option value="1.25">1,25×</option><option value="1.5">1,5×</option><option value="2">2×</option><option value="3">3×</option><option value="4">4×</option></select><span class="chevron">⌄</span></span></label></div>
+            <label class="toggle-row"><span class="toggle-copy"><span class="toggle-title">Убрать звук</span><span class="toggle-sub">Сохранить видео без аудиодорожки</span></span><span class="switch"><input type="checkbox" id="mute"><span class="switch-track"></span></span></label>
+          </div>
+        </section>
+
+        <div class="action-row"><button class="primary-btn" id="actionBtn"><span id="actionLabel">Скачать видео</span><span class="btn-arrow">↗</span></button><span class="action-caption" id="actionCaption">Файл сохранится на ваше устройство</span></div>
+        <div class="progress-wrap" id="progressWrap" hidden><div class="progress-meta"><span id="progressMessage">Подготовка…</span><span id="progressPercent">0%</span></div><div class="progress-track"><span id="progressBar"></span></div></div>
+        <div class="result" id="result" hidden></div>
+        <div class="error" id="error" hidden></div>
+      </div>
+
+      <div class="trust-row"><span><i>✓</i> просто</span><b>·</b><span><i>✓</i> быстро</span><b>·</b><span><i>✓</i> ничего лишнего</span></div>
+    </section>
+    <footer><span>кадр<span class="brand-dot">.</span> <span class="footer-muted">видео — в вашем ритме</span></span><span class="footer-right"><span class="green-dot"></span> Обработка на вашем устройстве</span></footer>
+  </main>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
